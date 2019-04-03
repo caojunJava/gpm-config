@@ -1,0 +1,93 @@
+spring:
+  redis:
+    host: 172.16.7.235
+    port: 6379
+  mvc:
+    servlet:
+      load-on-startup: 1
+zuul:
+  ignored-services: '*'
+  sensitiveHeaders:
+  routes:
+    oauth:
+      path: /oauth/**
+      serviceId: cloud-oauth
+    user:
+      path: /system/**
+      serviceId: cloud-system
+    plan:
+      path: /plan/**
+      serviceId: cloud-plan
+    entrust:
+      path: /entrust/**
+      serviceId: cloud-entrust
+    project:
+      path: /project/**
+      serviceId: cloud-project
+    supplier:
+      path: /supplier/**
+      serviceId: cloud-supplier
+    agent:
+      path: /agent/**
+      serviceId: cloud-agent
+    workflow:
+      path: /workflow/**
+      serviceId:  cloud-workflow
+    joffice:
+      path: /joffice/**
+      serviceId: cloud-joffice
+    file:
+      path: /file/**
+      serviceId: cloud-file
+    validate:
+      path: /validate/**
+      serviceId: cloud-validate
+    log:
+      path: /log/**
+      serviceId: cloud-log
+
+  host:
+    connect-timeout-millis: 60000
+    socket-timeout-millis: 60000
+  add-proxy-headers: true
+  ribbon:
+    eager-load:
+      enabled: true
+    ReadTimeout: 60000
+    ConnectTimeout: 60000
+ribbon:
+  ReadTimeout: 30000
+  ConnectTimeout: 30000
+  #OkToRetryOnAllOperations: true
+  #MaxAutoRetries: 1
+  #MaxAutoRetriesNextServer: 1
+#打开feign-hystrix
+feign:
+  hystrix:
+    enabled: true
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 60000
+        timeout:
+          enable: true
+
+
+logging:
+  level:
+    root: info
+    com.gpm: debug
+    com.alibaba.druid: error
+    org.springframework.web: error
+  path: ${user.home}/tomcat/fins-apps/gpm-server/${spring.application.name}/logs/
+
+
+filter:
+  url:
+    prefix: /data,/oauth/user-me,/oauth/verifyImage/**,/system/commonUtils/**,/system/user/register,/oauth/power/**,/system/route/getByKeyWord,/sys/login
+
